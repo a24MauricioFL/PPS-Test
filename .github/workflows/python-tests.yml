@@ -1,0 +1,40 @@
+name: Python Tests
+
+on: 
+  push:
+    branches:
+      - main  # Cambia la rama si lo necesitas
+  pull_request:
+    branches:
+      - main  # Cambia la rama si lo necesitas
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+   
+    steps:
+      - name: Checkout do repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Cambia a versión que necesites
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "Non hai requirements.txt"
+          fi
+
+      - name: Verificar execución de tests
+        run: echo "🏆 TESTS EXECUTÁNDOSE AGORA!"
+
+      - name: Executar tests
+        run: python -m unittest discover
+
+      - name: Verificar finalización de tests
+        run: echo "✅ TESTS FINALIZADOS!"
